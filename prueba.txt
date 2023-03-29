@@ -1,0 +1,11 @@
+
+si (a) {
+	var x = 2+2;
+	var a = 4+4;
+}ademas{
+	var x = 4+4;
+	var a = 2+2;
+	para (var i = 0; i<0;i++){
+		x++;
+	}
+}
