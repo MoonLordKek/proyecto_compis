@@ -49,14 +49,14 @@ public class Scanner {
         simbolosDelSistema.put("+",TipoToken.OPERADOR_ARITMETICO);
         simbolosDelSistema.put("*",TipoToken.OPERADOR_ARITMETICO);
         simbolosDelSistema.put("/",TipoToken.OPERADOR_ARITMETICO);
-        simbolosDelSistema.put("!",TipoToken.OPERADOR_LOGICO);
-        simbolosDelSistema.put("!=",TipoToken.OPERADOR_LOGICO);
+        simbolosDelSistema.put("!",TipoToken.DISTINTO1);
+        simbolosDelSistema.put("!=",TipoToken.DISTINTO2);
         simbolosDelSistema.put("=",TipoToken.OPERADOR_ASIGNACION);
-        simbolosDelSistema.put("==",TipoToken.OPERADOR_LOGICO);
-        simbolosDelSistema.put("<",TipoToken.OPERADOR_LOGICO);
-        simbolosDelSistema.put("<=",TipoToken.OPERADOR_LOGICO);
-        simbolosDelSistema.put(">",TipoToken.OPERADOR_LOGICO);
-        simbolosDelSistema.put(">=",TipoToken.OPERADOR_LOGICO);
+        simbolosDelSistema.put("==",TipoToken.COMPARACION);
+        simbolosDelSistema.put("<",TipoToken.MENOR_QUE);
+        simbolosDelSistema.put("<=",TipoToken.MENOR_IGUAL);
+        simbolosDelSistema.put(">",TipoToken.MAYOR_QUE);
+        simbolosDelSistema.put(">=",TipoToken.MAYOR_IGUAL);
     }
 
     Scanner(String source){

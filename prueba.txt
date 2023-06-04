@@ -15,3 +15,45 @@ si (a) {
 
 	}
 }
+
+
+public DECLARATION(List<Token> tokens, int iterator){
+	switch(tokens(iterator).tipoToken){
+		case CLASE:
+			DECLARATION(tokens,iterator+1);
+		break;
+		case FUNCION:
+			DECLARATION(tokens,iterator+1);
+		break;
+		case VAR:
+			DECLARATION(tokens,iterator+1);
+		break;
+		case STATEMENT:
+			DECLARATION(tokens,iterator+1);
+		break;
+	}
+}
+
+public CLASE(List<Token> tokens, int iterator){
+	switch(tokens(iterator).tipoToken){
+		case CLASE:
+			if(tokens(++iterator).tipoToken==ID){
+				CLASS_INHER(tokens,iterator+1);
+				if(tokens(++iterator).tipoToken==LLAVE_ABRE){
+					FUNCIONES(tokens,iterator+1);
+					if(tokens(++iterator).tipoToken==LLAVE_CIERRA)
+						return;
+					else
+						return error;
+				}else{
+					return error;
+				}
+
+			}else
+				return error;
+		break;
+		DEFAULT:
+			return error;
+		break;
+	}
+}
