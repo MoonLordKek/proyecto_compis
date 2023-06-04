@@ -5,7 +5,13 @@ si (a) {
 }ademas{
 	var x = 4+4;
 	var a = 2+2;
+	/*
+		fdasfdasfdsasfdsa
+		fdasfdasfdsa
+		fdasfdsa
+		*/
 	para (var i = 0; i<0;i++){
 		x++;
+
 	}
 }

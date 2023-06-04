@@ -38,17 +38,17 @@ public class Scanner {
     private static final Map<String, TipoToken> simbolosDelSistema;
     static{
         simbolosDelSistema = new HashMap<>();
-        simbolosDelSistema.put("(",TipoToken.CARACTERES_ESPECIALES);
-        simbolosDelSistema.put(")",TipoToken.CARACTERES_ESPECIALES);
-        simbolosDelSistema.put("{",TipoToken.CARACTERES_ESPECIALES);
-        simbolosDelSistema.put("}",TipoToken.CARACTERES_ESPECIALES);
-        simbolosDelSistema.put(",",TipoToken.CARACTERES_ESPECIALES);
-        simbolosDelSistema.put(".",TipoToken.CARACTERES_ESPECIALES);
-        simbolosDelSistema.put(";",TipoToken.CARACTERES_ESPECIALES);
-        simbolosDelSistema.put("-",TipoToken.OPERADOR_ALGEBRAICO);
-        simbolosDelSistema.put("+",TipoToken.OPERADOR_ALGEBRAICO);
-        simbolosDelSistema.put("*",TipoToken.OPERADOR_ALGEBRAICO);
-        simbolosDelSistema.put("/",TipoToken.OPERADOR_ALGEBRAICO);
+        simbolosDelSistema.put("(",TipoToken.PARENTESIS_ABRE);
+        simbolosDelSistema.put(")",TipoToken.PARENTESIS_CIERRA);
+        simbolosDelSistema.put("{",TipoToken.LLAVE_ABRE);
+        simbolosDelSistema.put("}",TipoToken.LLAVE_CIERRA);
+        simbolosDelSistema.put(",",TipoToken.COMA);
+        simbolosDelSistema.put(".",TipoToken.PUNTO);
+        simbolosDelSistema.put(";",TipoToken.PUNTO_COMA);
+        simbolosDelSistema.put("-",TipoToken.OPERADOR_ARITMETICO);
+        simbolosDelSistema.put("+",TipoToken.OPERADOR_ARITMETICO);
+        simbolosDelSistema.put("*",TipoToken.OPERADOR_ARITMETICO);
+        simbolosDelSistema.put("/",TipoToken.OPERADOR_ARITMETICO);
         simbolosDelSistema.put("!",TipoToken.OPERADOR_LOGICO);
         simbolosDelSistema.put("!=",TipoToken.OPERADOR_LOGICO);
         simbolosDelSistema.put("=",TipoToken.OPERADOR_ASIGNACION);
@@ -89,12 +89,23 @@ public class Scanner {
                 //System.out.println("soy un / : "+i);
                 i++;
                 car =source.substring(i,i+1);
-                if(car.charAt(0)==47){//comentario
+                if(car.charAt(0)==47){//comentario de linea
                     while(car.charAt(0)!=10 && i<source.length()){//nada
                         //System.out.println("Comentario");
                         i++;
                         car =source.substring(i,i+1);
                     }
+                }else if(car.charAt(0)==42){
+                    //System.out.println("comentario largo  "+(source.substring(i,i+1)).charAt(0)+" kek\n");
+                    i++;
+                    car = source.substring(i,i+1);
+                    while(car.charAt(0)!=42 && (source.substring(i+1,i+2)).charAt(0)!=47 && i<source.length()){
+                        //System.out.println("datos  "+(source.substring(i+1,i+2)).charAt(0)+"\n");
+                        i++;
+                        car =source.substring(i,i+1);
+                    }
+                    i++;
+                    car = source.substring(i,i+1);
                 }else{
                     car = source.substring(i-1,i);
                     //System.out.println("no es comentario: "+car+" i:"+i+"\n");
@@ -156,12 +167,17 @@ public class Scanner {
                     }
                 }while((car.charAt(0) < 58 && car.charAt(0)>47 || car.charAt(0)==46 ) && i<source.length()) ;
                 tokens.add(new Token(TipoToken.NUMERO,token,null,linea));    
-            }else if((car.charAt(0) == 10){
+            }else if((car.charAt(0) == 10)){ //niu lain
                 linea++;
-            }else if((car.charAt(0) == 32){
+            }else if((car.charAt(0) == 32)){
                 //espacio Xd
-            }else{
-                
+                linea++;
+            }else{//exception???
+                /*
+                token = "erro";
+                List<Token> err = new ArrayList<>();
+                err.add(new Token(TipoToken.ERROR,token,null,linea));
+                return err;*/
             }
             i++;
             //System.out.println("Value of i at the end: "+i);
