@@ -45,10 +45,10 @@ public class Scanner {
         simbolosDelSistema.put(",",TipoToken.COMA);
         simbolosDelSistema.put(".",TipoToken.PUNTO);
         simbolosDelSistema.put(";",TipoToken.PUNTO_COMA);
-        simbolosDelSistema.put("-",TipoToken.OPERADOR_ARITMETICO);
-        simbolosDelSistema.put("+",TipoToken.OPERADOR_ARITMETICO);
-        simbolosDelSistema.put("*",TipoToken.OPERADOR_ARITMETICO);
-        simbolosDelSistema.put("/",TipoToken.OPERADOR_ARITMETICO);
+        simbolosDelSistema.put("-",TipoToken.MENOS);
+        simbolosDelSistema.put("+",TipoToken.MAS);
+        simbolosDelSistema.put("*",TipoToken.MULTIPLICACION);
+        simbolosDelSistema.put("/",TipoToken.DIVISION);
         simbolosDelSistema.put("!",TipoToken.DISTINTO1);
         simbolosDelSistema.put("!=",TipoToken.DISTINTO2);
         simbolosDelSistema.put("=",TipoToken.OPERADOR_ASIGNACION);

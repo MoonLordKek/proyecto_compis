@@ -54,6 +54,8 @@ public class Interprete {
         for(Token token : tokens){
             System.out.println(token);
         }
+        Analizador analizador = new Analizador();
+        analizador.DECLARATION(tokens,0);
     }
 
     /*
