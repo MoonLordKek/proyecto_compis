@@ -10,7 +10,7 @@ public class Analizador{
         error = "tas bien wey";
     }
 
-	public String DECLARATION(List<Token> tokens, int iterator){
+	public void DECLARATION(List<Token> tokens, int iterator){
         System.out.println("pruebas kek: " + tipoToken);
 		switch(tipoToken){
 			case CLASE:
@@ -42,18 +42,18 @@ public class Analizador{
                     if(tokens.get(++iterator).tipo==TipoToken.LLAVE_ABRE){
                         FUNCIONES(tokens,iterator+1);
                         if(tokens.get(++iterator).tipo==TipoToken.LLAVE_CIERRA)
-                            return "correcto";
+                           
                         else
-                            return error;
+                            return "Hemos encontrado un error, esperabamos una '}'";
                     }else{
-                        return error;
+                        return "Hemos encontrado un error, esperabamos una '{'";
                     }
 
                 }else
-                    return error;
+                    return "Hemos encontrado un error, esperabamos un ID";
             break;
-            DEFAULT:
-                return error;
+            default:
+                return "Hemos encontrado un error";
             break;
         }
     }
@@ -68,7 +68,7 @@ public class Analizador{
         }
      }
      //Metodo para cuando entramos en el caso de que sea FUNCTIONS***************************************************
-     public String FUNCIONES(List<Token> tokens, int iterator){
+     public void FUNCIONES(List<Token> tokens, int iterator){
         switch(tipoToken){
             case FUNCION:
                 FUNCION(tokens,iterator);
@@ -84,19 +84,19 @@ public class Analizador{
                     PARAMETERS_OPC(tokens,iterator+1);
                     if(tokens.get(++iterator).tipo==TipoToken.PARENTESIS_CIERRA){
                         BLOCK(tokens,iterator+1);
-                        return "correcto";
+
                     }else
-                        return error;
+                        return "Hemos encontrado un error, esperabamos un ')'";
                 }else
-                    return error;
+                    return "Hemos encontrado un error, esperabamos un '('";
             break;
-            DEFAULT:
-                return error;
+            default:
+                return "Hemos encontrado un error, esperabamos un ID";
             break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea PARAMETERS_OPC***************************************************
-    public String PARAMETERS_OPC(List<Token> tokens, int iterator){
+    public void PARAMETERS_OPC(List<Token> tokens, int iterator){
         switch(tipoToken){
             case ID:
                 PARAMETERS(tokens,iterator);
@@ -109,13 +109,13 @@ public class Analizador{
             case ID:
                 PARAMETERS_2(tokens,iterator+1);
             break;
-            DEFAULT:
-                return error;
+            default:
+                return "Hemos encontrado un error";
             break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea PARAMETERS2***************************************************
-    public String PARAMETERS_2(List<Token> tokens, int iterator){
+    public void PARAMETERS_2(List<Token> tokens, int iterator){
         switch(tipoToken){
             case COMA:
                 if(tokens.get(++iterator).tipo==TipoToken.ID)
@@ -129,8 +129,8 @@ public class Analizador{
             case FUNCION:
                     FUNCION(tokens,iterator);
             break;
-            DEFAULT:
-                return error;
+            default:
+                return "Hemos encontrado un error";
             break;
         }
     }
@@ -141,15 +141,15 @@ public class Analizador{
                 if(tokens.get(++iterator).tipo==TipoToken.ID){
                     VAR_INIT(tokens,iterator+1);
                 }else
-                    return error;
+                    return "Hemos encontrado un error, esperabamos un ID";
             break;
-            DEFAULT:
-                return error;
+            default:
+                return "Hemos encontrado un error";
             break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea VAR_INIT***************************************************
-    public String VAR_INIT(List<Token> tokens, int iterator){
+    public void VAR_INIT(List<Token> tokens, int iterator){
         switch(tipoToken){
             case OPERADOR_ASIGNACION:
                 EXPRESSION(tokens,iterator+1);
