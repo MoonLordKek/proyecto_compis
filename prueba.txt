@@ -8,7 +8,7 @@ si (a) {
 	/*
 		fdasfdasfdsasfdsa
 		fdasfdasfdsa
-		fdasfdsa
+
 		*/
 	para (var i = 0; i<0;i++){
 		x++;
