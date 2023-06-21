@@ -34,7 +34,7 @@ public class Analizador{
 	}
     //Metodo para cuando entramos en el caso de que sea CLASS_DECL****************************************************
     
-    public String CLASE_DECL(List<Token> tokens, int iterator){
+    public void CLASE_DECL(List<Token> tokens, int iterator){
         switch(tipoToken){
             case CLASE:
                 if(tokens.get(++iterator).tipo==TipoToken.ID){
@@ -44,16 +44,16 @@ public class Analizador{
                         if(tokens.get(++iterator).tipo==TipoToken.LLAVE_CIERRA)
                            
                         else
-                            return "Hemos encontrado un error, esperabamos una '}'";
+                            System.out.println("Hemos encontrado un error, esperabamos una '}'");
                     }else{
-                        return "Hemos encontrado un error, esperabamos una '{'";
+                        System.out.println("Hemos encontrado un error, esperabamos una '{'");
                     }
 
                 }else
-                    return "Hemos encontrado un error, esperabamos un ID";
+                    System.out.println("Hemos encontrado un error, esperabamos un ID");
             break;
             default:
-                return "Hemos encontrado un error";
+                System.out.println("Hemos encontrado un error");
             break;
         }
     }
@@ -77,7 +77,7 @@ public class Analizador{
         }
     }
     //Metodo para cuando entramos en el caso de que sea FUNCTION***************************************************
-    public String FUNCION(List<Token> tokens, int iterator){
+    public void FUNCION(List<Token> tokens, int iterator){
         switch(tipoToken){
             case ID:
                 if(tokens.get(++iterator).tipo==TipoToken.PARENTESIS_ABRE){
@@ -86,12 +86,12 @@ public class Analizador{
                         BLOCK(tokens,iterator+1);
 
                     }else
-                        return "Hemos encontrado un error, esperabamos un ')'";
+                        System.out.println("Hemos encontrado un error, esperabamos un ')'");
                 }else
-                    return "Hemos encontrado un error, esperabamos un '('";
+                    System.out.println("Hemos encontrado un error, esperabamos un '('");
             break;
             default:
-                return "Hemos encontrado un error, esperabamos un ID";
+                System.out.println("Hemos encontrado un error, esperabamos un ID");
             break;
         }
     }
@@ -104,13 +104,13 @@ public class Analizador{
         }
     }
     //Metodo para cuando entramos en el caso de que sea PARAMETERS***************************************************
-    public String PARAMETERS(List<Token> tokens, int iterator){
+    public void PARAMETERS(List<Token> tokens, int iterator){
         switch(tipoToken){
             case ID:
                 PARAMETERS_2(tokens,iterator+1);
             break;
             default:
-                return "Hemos encontrado un error";
+                System.out.println("Hemos encontrado un error");
             break;
         }
     }
@@ -124,27 +124,27 @@ public class Analizador{
         }
     }
     //Metodo para cuando entramos en el caso de que sea FUN_DECL***************************************************
-    public String FUN_DECL(List<Token> tokens, int iterator){
+    public void FUN_DECL(List<Token> tokens, int iterator){
         switch(tipoToken){
             case FUNCION:
                     FUNCION(tokens,iterator);
             break;
             default:
-                return "Hemos encontrado un error";
+                System.out.println("Hemos encontrado un error");
             break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea FUN_DECL***************************************************
-    public String VAR_DECL(List<Token> tokens, int iterator){
+    public void VAR_DECL(List<Token> tokens, int iterator){
         switch(tipoToken){
             case VARIABLE:
                 if(tokens.get(++iterator).tipo==TipoToken.ID){
                     VAR_INIT(tokens,iterator+1);
                 }else
-                    return "Hemos encontrado un error, esperabamos un ID";
+                    System.out.println("Hemos encontrado un error, esperabamos un ID");
             break;
             default:
-                return "Hemos encontrado un error";
+                System.out.println("Hemos encontrado un error");
             break;
         }
     }
@@ -157,30 +157,31 @@ public class Analizador{
         }
     }
     //Metodo para cuando entramos en el caso de que sea EXPRESSION***************************************************
-    public String EXPRESSION(List<Token> tokens, int iterator){
+    public void EXPRESSION(List<Token> tokens, int iterator){
         switch(tipoToken){
             case OPERADOR_ASIGNACION:
                 ASSIGNMENT(tokens,iterator);
             break;
-            DEFAULT:
-                return error;
+            default:
+                System.out.println("Hemos encontrado un error, esperabamos el operador de asignación");
+                
             break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea ASSIGNMENT***************************************************
-    public String ASSIGNMENT(List<Token> tokens, int iterator){
+    public void ASSIGNMENT(List<Token> tokens, int iterator){
         switch(tipoToken){
             case O:
                 LOGIC_OR(tokens,iterator);
                 ASSIGNMENT_OPC(tokens,iterator+1);
             break;
-            DEFAULT:
-                return error;
+            default:
+                System.out.println("Hemos encontrado un error");
             break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea ASSIGNMENT_OPC***************************************************
-    public String ASSIGNMENT_OPC(List<Token> tokens, int iterator){
+    public void ASSIGNMENT_OPC(List<Token> tokens, int iterator){
         switch(tipoToken){
             case OPERADOR_ASIGNACION:
                 EXPRESSION(tokens,iterator+1);
@@ -188,19 +189,19 @@ public class Analizador{
         }
     }
     //Metodo para cuando entramos en el caso de que sea LOGIC_OR***************************************************
-    public String LOGIC_OR(List<Token> tokens, int iterator){
+    public void LOGIC_OR(List<Token> tokens, int iterator){
         switch(tipoToken){
             case Y:
                 LOGIC_AND(tokens,iterator);
                 LOGIC_OR_2(tokens,iterator+1);
             break;
-            DEFAULT:
-                return error;
+            default:
+                System.out.println("Hemos encontrado un error");
             break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea LOGIC_OR_2***************************************************
-    public String LOGIC_OR_2(List<Token> tokens, int iterator){
+    public void LOGIC_OR_2(List<Token> tokens, int iterator){
         switch(tipoToken){
             case O:
                 LOGIC_AND(tokens,iterator+1);
@@ -209,19 +210,19 @@ public class Analizador{
         }
     }
     //Metodo para cuando entramos en el caso de que sea LOGIC_AND***************************************************
-    public String LOGIC_AND(List<Token> tokens, int iterator){
+    public void LOGIC_AND(List<Token> tokens, int iterator){
         switch(tipoToken){
             case COMPARACION:
                 EQUALITY(tokens,iterator);
                 LOGIC_AND_2(tokens,iterator+1);
             break;
-            DEFAULT:
-                return error;
+            default:
+                System.out.println("hemos encontrado un error");
             break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea LOGIC_AND_2***************************************************
-    public String LOGIC_AND_2(List<Token> tokens, int iterator){
+    public void LOGIC_AND_2(List<Token> tokens, int iterator){
         switch(tipoToken){
             case Y:
                 EQUALITY(tokens,iterator+1);
@@ -230,7 +231,7 @@ public class Analizador{
         }
     }
     //Metodo para cuando entramos en el caso de que sea EQUALITY***************************************************
-    public String EQUALITY(List<Token> tokens, int iterator){
+    public void EQUALITY(List<Token> tokens, int iterator){
         switch(tipoToken){
             case COMPARACION:
                 COMPARASION(tokens,iterator);
@@ -239,7 +240,7 @@ public class Analizador{
         }
     }
     //Metodo para cuando entramos en el caso de que sea EQUALITY_2***************************************************
-    public String EQUALITY_2(List<Token> tokens, int iterator){
+    public void EQUALITY_2(List<Token> tokens, int iterator){
         switch(tipoToken){
             case DISTINTO2:
                 COMPARASION(tokens,iterator+1);
@@ -252,19 +253,19 @@ public class Analizador{
         }
     }
     //Metodo para cuando entramos en el caso de que sea COMPARASION***************************************************
-    public String COMPARASION(List<Token> tokens, int iterator){
+    public void COMPARASION(List<Token> tokens, int iterator){
         switch(tipoToken){
             case TERMINO:
                 TERM(tokens,iterator);
                 COMPARASION_2(tokens,iterator+1);
             break;
-            DEFAULT:
-                return error;
+            default:
+                System.out.println("Hemos encontrado un error");
             break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea COMPARASION_2***************************************************
-    public String COMPARASION_2(List<Token> tokens, int iterator){
+    public void COMPARASION_2(List<Token> tokens, int iterator){
         switch(tipoToken){
             case MAYOR_QUE:
                 TERM(tokens,iterator+1);
@@ -285,19 +286,19 @@ public class Analizador{
         }
     }
     //Metodo para cuando entramos en el caso de que sea TERM***************************************************
-    public String TERM(List<Token> tokens, int iterator){
+    public void TERM(List<Token> tokens, int iterator){
         switch(tipoToken){
             case FACTOR:
                 FARCTOR(tokens,iterator);
                 TERM_2(tokens,iterator+1);
             break;
-            DEFAULT:
-                return error;
+            default:
+                System.out.println("Hemos encontrado un error");
             break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea TERM_2***************************************************
-    public String TERM_2(List<Token> tokens, int iterator){
+    public void TERM_2(List<Token> tokens, int iterator){
         switch(tipoToken){
             case MENOS:
                 FARCTOR(tokens,iterator+1);
@@ -310,19 +311,19 @@ public class Analizador{
         }
     }
     //Metodo para cuando entramos en el caso de que sea FACTOR***************************************************
-    public String FARCTOR(List<Token> tokens, int iterator){
+    public void FARCTOR(List<Token> tokens, int iterator){
         switch(tipoToken){
             case UNARY:
                 UNARY(tokens,iterator);
                 FACTOR_2(tokens,iterator+1);
             break;
-            DEFAULT:
-                return error;
+            default:
+                System.out.println("hemos encontrado un error");
             break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea FACTOR_2***************************************************
-    public String FACTOR_2(List<Token> tokens, int iterator){
+    public void FACTOR_2(List<Token> tokens, int iterator){
         switch(tipoToken){
             case DIVISION:
                 UNARY(tokens,iterator+1);
@@ -335,7 +336,7 @@ public class Analizador{
         }
     }
      //Metodo para cuando entramos en el caso de que sea UNARY***************************************************
-     public String UNARY(List<Token> tokens, int iterator){
+     public void UNARY(List<Token> tokens, int iterator){
         switch(tipoToken){
             case OPERADOR_LOGICO:
                 UNARY(tokens,iterator+1);
