@@ -29,7 +29,7 @@ public class Analizador{
 				DECLARATION(tokens,iterator+1);
 			break;
             default:
-                System.out.println("Error sintáctico");
+                System.out.println("Error sintáctico, esperabamos una CLASE, FUNCION, VARIABLE o ID");
             break;
 		}
 	}
@@ -44,15 +44,15 @@ public class Analizador{
                     if(tokens.get(++iterator).tipo==TipoToken.LLAVE_ABRE){
                         FUNCIONES(tokens,iterator+1);
                         if(tokens.get(++iterator).tipo!=TipoToken.LLAVE_CIERRA)
-                            System.out.println("Error sintático");
+                            System.out.println("Error sintático, esperabamos una '}'");
                     }else{
-                        System.out.println("Error sintático");
+                        System.out.println("Error sintático, esperabamos una '{'");
                     }
 
                 }else
-                    System.out.println("Error sintático");
+                    System.out.println("Error sintático, esperabamos un ID");
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperrabamos una CLASE");
         }
         
     }
@@ -62,12 +62,12 @@ public class Analizador{
         switch(tokens.get(iterator).tipo){
             case MENOR_QUE:
                 if(tokens.get(++iterator).tipo!=TipoToken.ID){
-                    System.out.println("Error sintático");
+                    System.out.println("Error sintático, esperabamos un ID");
                     break;
                 }
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos un '<'");
             break;
         }
      }
@@ -92,12 +92,12 @@ public class Analizador{
                         BLOCK(tokens,iterator+1);
                         
                     }else
-                        System.out.println("Error sintático");
+                        System.out.println("Error sintático, esperebamos un ')'");
                 }else
-                    System.out.println("Error sintático");
+                    System.out.println("Error sintático, esperabamos un '('");
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos un ID");
             break;
         }
         
@@ -120,7 +120,7 @@ public class Analizador{
                 PARAMETERS_2(tokens,iterator+1);
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos un ID");
             break;
         }
         
@@ -143,7 +143,7 @@ public class Analizador{
                     FUNCION(tokens,iterator);
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos una FUNCION");
             break;
         }
     }
@@ -155,10 +155,10 @@ public class Analizador{
                 if(tokens.get(++iterator).tipo==TipoToken.ID){
                     VAR_INIT(tokens,iterator+1);
                 }else
-                    System.out.println("Error sintático");
+                    System.out.println("Error sintático, esperabamos un ID");
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos una VARIABLE");
             break;
         }
     }
@@ -185,7 +185,7 @@ public class Analizador{
                 ASSIGNMENT_OPC(tokens,iterator+1);
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos un O");
             break;
         }
     }
@@ -207,7 +207,7 @@ public class Analizador{
                 LOGIC_OR_2(tokens,iterator+1);
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos una Y");
             break;
         }
     }
@@ -230,7 +230,7 @@ public class Analizador{
                 LOGIC_AND_2(tokens,iterator+1);
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos una COMPARACION");
             break;
         }
     }
@@ -367,13 +367,13 @@ public class Analizador{
                 if(tokens.get(++iterator).tipo==TipoToken.PARENTESIS_CIERRA){
                     CALL_2(tokens,iterator+1);
                 }else
-                    System.out.println("Error sintático");                
+                    System.out.println("Error sintático, esperabamos un ')'");                
             break;
             case PUNTO:
                 if(tokens.get(++iterator).tipo==TipoToken.ID){
                     CALL_2(tokens,iterator+1);
                 }else
-                    System.out.println("Error sintático");                    
+                    System.out.println("Error sintático, esperbamos un ID");                    
             break;
         }
     }
@@ -403,7 +403,7 @@ public class Analizador{
         if(tokens.get(++iterator).tipo==TipoToken.PUNTO){
             
         }else
-            System.out.println("Error sintático");
+            System.out.println("Error sintático, esperabamos un '.'");
         
     }
     //Metodo para cuando entramos en el caso de que sea PRIMARY***************************************************
@@ -436,7 +436,7 @@ public class Analizador{
                 if(tokens.get(++iterator).tipo==TipoToken.PARENTESIS_CIERRA){
                     
                 }else{
-                    System.out.println("Error sintático");
+                    System.out.println("Error sintático, esperabamos un ')'");
                 }
             break;
             case SUPER:
@@ -444,14 +444,14 @@ public class Analizador{
                     if(tokens.get(++iterator).tipo==TipoToken.ID){
                         
                     }else{
-                        System.out.println("Error sintático");
+                        System.out.println("Error sintático, esperabamos un ID");
                     }
                 }else{
-                    System.out.println("Error sintático");
+                    System.out.println("Error sintático, ESPERABAMOS UN '.'");
                 } 
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos un '('");
             break;
         }
     }
@@ -498,9 +498,9 @@ public class Analizador{
                 if(tokens.get(++iterator).tipo==TipoToken.PARENTESIS_CIERRA){
                     STATEMENT(tokens,iterator+1);
                 }else
-                    System.out.println("Error sintático");
+                    System.out.println("Error sintático, esperabamos un ')'");
             }else
-                System.out.println("Error sintático");                
+                System.out.println("Error sintático, esperabamos un '('");                
             break;
         }
     }
@@ -547,12 +547,12 @@ public class Analizador{
                     STATEMENT(tokens,iterator+1);
                     ELSE_STATEMENT(tokens,iterator+1);
                 }else
-                    System.out.println("Error sintático");
+                    System.out.println("Error sintático, esperabamos un ')'");
             }else
-                System.out.println("Error sintático");                
+                System.out.println("Error sintático, esperabamos un '('");                
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos un SI");
             break;
         }
     }
@@ -575,7 +575,7 @@ public class Analizador{
                                  
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos un IMPRIMIR");
             break;
         }
     }
@@ -587,7 +587,7 @@ public class Analizador{
                 RETURN_EXP_OPC(tokens,iterator+1);     
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos un RETORNAR");
             break;
         }
     }
@@ -606,12 +606,12 @@ public class Analizador{
                     if(tokens.get(++iterator).tipo==TipoToken.PARENTESIS_CIERRA){
                         STATEMENT(tokens,iterator+1);
                     }else
-                        System.out.println("Error sintático");
+                        System.out.println("Error sintático, esperabamos un ')'");
                 }else
-                System.out.println("Error sintático");          
+                System.out.println("Error sintático, esperabamos un '('");          
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos un MIENTRAS");
             break;
         }
     }
@@ -624,10 +624,10 @@ public class Analizador{
                     if(tokens.get(++iterator).tipo==TipoToken.LLAVE_CIERRA){
                         
                     }else
-                        System.out.println("Error sintático");        
+                        System.out.println("Error sintático, esperabamos una '}'");        
             break;
             default:
-                System.out.println("Error sintático");
+                System.out.println("Error sintático, esperabamos una '{'");
             break;
         }
     }
