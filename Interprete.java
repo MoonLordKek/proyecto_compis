@@ -54,8 +54,17 @@ public class Interprete {
         for(Token token : tokens){
             System.out.println(token);
         }
+
         Analizador analizador = new Analizador();
-        analizador.DECLARATION(tokens,0);
+        //analizador.DECLARATION(tokens,0);
+
+        GeneradorPostfija gpf = new GeneradorPostfija(tokens);
+        List<Token> postfija = gpf.convertir();
+
+        GeneradorAST gast = new GeneradorAST(postfija);
+        Arbol programa = gast.generarAST();
+        programa.recorrer();
+
     }
 
     /*

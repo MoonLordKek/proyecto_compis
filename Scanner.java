@@ -23,6 +23,7 @@ public class Scanner {
         palabrasReservadas.put("para", TipoToken.PARA);
         palabrasReservadas.put("fun", TipoToken.FUNCION); //definir funciones
         palabrasReservadas.put("si", TipoToken.SI);
+        palabrasReservadas.put("otro", TipoToken.OTRO);
         palabrasReservadas.put("nulo", TipoToken.NULO);
         palabrasReservadas.put("o", TipoToken.O);
         palabrasReservadas.put("imprimir", TipoToken.IMPRIMIR);
@@ -84,7 +85,7 @@ public class Scanner {
                     car = source.substring(i,i+1);
                     token+=car;
                 }while(!(car.equals(String.valueOf('"'))));
-                tokens.add(new Token(TipoToken.CADENA,'"'+token.substring(0,token.length()-1)+'"',token.substring(0,token.length()-1),linea));
+                tokens.add(new Token(TipoToken.CADENA,'"'+token.substring(0,token.length()-1)+'"',token.substring(0,token.length()-1)));
             }else if(car.charAt(0)==47){
                 //System.out.println("soy un / : "+i);
                 i++;
@@ -109,7 +110,7 @@ public class Scanner {
                 }else{
                     car = source.substring(i-1,i);
                     //System.out.println("no es comentario: "+car+" i:"+i+"\n");
-                    tokens.add(new Token(simbolosDelSistema.get(car),car,null,linea));
+                    tokens.add(new Token(simbolosDelSistema.get(car),car));
                     i--;
                 }
             }else if (simbolosDelSistema.containsKey(car)) {//detecta símbolos del sistema
@@ -118,12 +119,12 @@ public class Scanner {
                 if ((i+1)<source.length()){
                     token = car+source.substring(i+1,i+2);
                     if(simbolosDelSistema.containsKey(token))
-                        tokens.add(new Token(simbolosDelSistema.get(token),token,null,linea));
+                        tokens.add(new Token(simbolosDelSistema.get(token),token));
                     else{
-                        tokens.add(new Token(simbolosDelSistema.get(car),car,null,linea));
+                        tokens.add(new Token(simbolosDelSistema.get(car),car));
                     }
                 }else{
-                    tokens.add(new Token(simbolosDelSistema.get(car),car,null,linea));
+                    tokens.add(new Token(simbolosDelSistema.get(car),car));
                 }
 
             }else if (((car.charAt(0) < 123 && car.charAt(0)>96) || (car.charAt(0) < 91 && car.charAt(0)>64))) { //detecta identificadores o palabras reservadas
@@ -141,10 +142,10 @@ public class Scanner {
                 } i--;
                 if(palabrasReservadas.containsKey(token)){
                     //System.out.println("token_palabra: "+ token+"\n");
-                    tokens.add(new Token(palabrasReservadas.get(token),token,null,linea));
+                    tokens.add(new Token(palabrasReservadas.get(token),token));
                 }else{
                     //System.out.println("token: "+ token+"1\n");
-                    tokens.add(new Token(TipoToken.ID,token,null,linea));    
+                    tokens.add(new Token(TipoToken.ID,token));    
                 }
                 
             }else if(car.charAt(0) < 58 && car.charAt(0)>47){
@@ -166,7 +167,7 @@ public class Scanner {
                         i--;
                     }
                 }while((car.charAt(0) < 58 && car.charAt(0)>47 || car.charAt(0)==46 ) && i<source.length()) ;
-                tokens.add(new Token(TipoToken.NUMERO,token,null,linea));    
+                tokens.add(new Token(TipoToken.NUMERO,token));    
             }else if((car.charAt(0) == 10)){ //niu lain
                 linea++;
             }else if((car.charAt(0) == 32)){
@@ -176,7 +177,7 @@ public class Scanner {
                 /*
                 token = "erro";
                 List<Token> err = new ArrayList<>();
-                err.add(new Token(TipoToken.ERROR,token,null,linea));
+                err.add(new Token(TipoToken.ERROR,token));
                 return err;*/
             }
             i++;
