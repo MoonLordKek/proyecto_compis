@@ -29,7 +29,7 @@ public class Analizador{
 				DECLARATION(tokens,iterator+1);
 			break;
             default:
-                System.out.println("Error sintáctico, esperabamos una CLASE, FUNCION, VARIABLE o ID");
+               // System.out.println("Error sintáctico, esperabamos una CLASE, FUNCION, VARIABLE o ID");
             break;
 		}
 	}
@@ -74,12 +74,8 @@ public class Analizador{
      //Metodo para cuando entramos en el caso de que sea FUNCTIONS***************************************************
      public void FUNCIONES(List<Token> tokens, int iterator){
         System.out.println("funciones "+ tokens.get(iterator).tipo+"\n");
-        switch(tokens.get(iterator).tipo){
-            case FUNCION:
                 FUNCION(tokens,iterator);
                 FUNCIONES(tokens,iterator+1);
-            break;
-        }
     }
     //Metodo para cuando entramos en el caso de que sea FUNCTION***************************************************
     public void FUNCION(List<Token> tokens, int iterator){
@@ -105,12 +101,7 @@ public class Analizador{
     //Metodo para cuando entramos en el caso de que sea PARAMETERS_OPC***************************************************
     public void PARAMETERS_OPC(List<Token> tokens, int iterator){
         System.out.println("par ops "+ tokens.get(iterator).tipo+"\n");
-        switch(tokens.get(iterator).tipo){
-            case ID:
                 PARAMETERS(tokens,iterator);
-            break;
-        }
-        
     }
     //Metodo para cuando entramos en el caso de que sea PARAMETERS***************************************************
     public void PARAMETERS(List<Token> tokens, int iterator){
@@ -132,6 +123,8 @@ public class Analizador{
             case COMA:
                 if(tokens.get(++iterator).tipo==TipoToken.ID)
                     PARAMETERS_2(tokens,iterator+1);
+            break;
+            default:
             break;
         }
     }
@@ -169,6 +162,8 @@ public class Analizador{
             case OPERADOR_ASIGNACION:
                 EXPRESSION(tokens,iterator+1);
             break;
+            default:
+            break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea EXPRESSION***************************************************
@@ -179,15 +174,8 @@ public class Analizador{
     //Metodo para cuando entramos en el caso de que sea ASSIGNMENT***************************************************
     public void ASSIGNMENT(List<Token> tokens, int iterator){
         System.out.println("assigment "+ tokens.get(iterator).tipo+"\n");
-        switch(tokens.get(iterator).tipo){
-            case O:
                 LOGIC_OR(tokens,iterator);
                 ASSIGNMENT_OPC(tokens,iterator+1);
-            break;
-            default:
-                System.out.println("Error sintático, esperabamos un O");
-            break;
-        }
     }
     //Metodo para cuando entramos en el caso de que sea ASSIGNMENT_OPC***************************************************
     public void ASSIGNMENT_OPC(List<Token> tokens, int iterator){
@@ -196,20 +184,15 @@ public class Analizador{
             case OPERADOR_ASIGNACION:
                 EXPRESSION(tokens,iterator+1);
             break;
+            default:
+            break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea LOGIC_OR***************************************************
     public void LOGIC_OR(List<Token> tokens, int iterator){
         System.out.println("logic or "+ tokens.get(iterator).tipo+"\n");
-        switch(tokens.get(iterator).tipo){
-            case Y:
                 LOGIC_AND(tokens,iterator);
                 LOGIC_OR_2(tokens,iterator+1);
-            break;
-            default:
-                System.out.println("Error sintático, esperabamos una Y");
-            break;
-        }
     }
     //Metodo para cuando entramos en el caso de que sea LOGIC_OR_2***************************************************
     public void LOGIC_OR_2(List<Token> tokens, int iterator){
@@ -219,20 +202,15 @@ public class Analizador{
                 LOGIC_AND(tokens,iterator+1);
                 LOGIC_OR_2(tokens,iterator+1);
             break;
+            default:
+            break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea LOGIC_AND***************************************************
     public void LOGIC_AND(List<Token> tokens, int iterator){
         System.out.println("logic and "+ tokens.get(iterator).tipo+"\n");
-        switch(tokens.get(iterator).tipo){
-            case COMPARACION:
                 EQUALITY(tokens,iterator);
                 LOGIC_AND_2(tokens,iterator+1);
-            break;
-            default:
-                System.out.println("Error sintático, esperabamos una COMPARACION");
-            break;
-        }
     }
     //Metodo para cuando entramos en el caso de que sea LOGIC_AND_2***************************************************
     public void LOGIC_AND_2(List<Token> tokens, int iterator){
@@ -242,17 +220,15 @@ public class Analizador{
                 EQUALITY(tokens,iterator+1);
                 LOGIC_AND_2(tokens,iterator+1);
             break;
+            default:
+            break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea EQUALITY***************************************************
     public void EQUALITY(List<Token> tokens, int iterator){
         System.out.println("equal "+ tokens.get(iterator).tipo+"\n");
-        switch(tokens.get(iterator).tipo){
-            case COMPARACION:
                 COMPARASION(tokens,iterator);
                 EQUALITY_2(tokens,iterator+1);
-            break;
-        }
     }
     //Metodo para cuando entramos en el caso de que sea EQUALITY_2***************************************************
     public void EQUALITY_2(List<Token> tokens, int iterator){
@@ -265,6 +241,8 @@ public class Analizador{
             case COMPARACION:
                 COMPARASION(tokens,iterator+1);
                 EQUALITY_2(tokens,iterator+1);
+            break;
+            default:
             break;
         }
     }
@@ -295,6 +273,8 @@ public class Analizador{
                 TERM(tokens,iterator+1);
                 COMPARASION_2(tokens,iterator+1);
             break;
+            default:
+            break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea TERM***************************************************
@@ -315,6 +295,8 @@ public class Analizador{
                 FARCTOR(tokens,iterator+1);
                 TERM_2(tokens,iterator+1);
             break;
+            default:
+            break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea FACTOR***************************************************
@@ -334,6 +316,8 @@ public class Analizador{
             case MULTIPLICACION:
                 UNARY(tokens,iterator+1);
                 FACTOR_2(tokens,iterator+1);
+            break;
+            default:
             break;
         }
     }
@@ -375,6 +359,8 @@ public class Analizador{
                 }else
                     System.out.println("Error sintático, esperbamos un ID");                    
             break;
+            default:
+            break;
         }
     }
 
@@ -393,6 +379,8 @@ public class Analizador{
             case COMA:
                 EXPRESSION(tokens,++iterator);
                 ARGUMENTS_2(tokens,++iterator);
+            break;
+            default:
             break;
         }
     }
@@ -502,6 +490,8 @@ public class Analizador{
             }else
                 System.out.println("Error sintático, esperabamos un '('");                
             break;
+            default:
+                break;
         }
     }
     //Metodo para cuando entramos en el caso de que sea FOR_STMT1***************************************************
@@ -562,6 +552,8 @@ public class Analizador{
         switch(tokens.get(iterator).tipo){
             case OTRO:
                 STATEMENT(tokens,iterator+1);            
+            break;
+            default:
             break;
         }
     }
@@ -638,6 +630,8 @@ public class Analizador{
             case VARIABLE:
                 DECLARATION(tokens,iterator);
                 BLOCK_DECL(tokens,iterator+1);                   
+            break;
+            default:
             break;
         }
     }
