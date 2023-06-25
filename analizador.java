@@ -399,25 +399,25 @@ public class Analizador{
         System.out.println("primary "+ tokens.get(iterator).tipo+"\n");
         switch(tokens.get(iterator).tipo){
             case VERDADERO:
-                
+                System.out.println("Es verdadero");
             break;
             case FALSO:
-                
+                System.out.println("Es falso");
             break;
             case NULO:
-                
+                System.out.println("Es nulo");
             break;
             case ESTE:
-                
+                System.out.println("Es 'este'");
             break;
             case NUMERO:
-                
+                System.out.println("Es un numero");
             break;
             case CADENA:
-                
+                System.out.println("Es una cadena");
             break;
             case ID:
-                
+                System.out.println("Es un ID");
             break;
             case PARENTESIS_ABRE:
                 EXPRESSION(tokens,iterator);
