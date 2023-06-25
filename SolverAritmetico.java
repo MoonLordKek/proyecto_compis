@@ -1,22 +1,25 @@
 public class SolverAritmetico {
 
     private final Nodo nodo;
+    private final TablaSimbolos tab;
 
-    public SolverAritmetico(Nodo nodo) {
+    public SolverAritmetico(Nodo nodo,TablaSimbolos tab) {
         this.nodo = nodo;
+        this.tab = tab;
     }
 
     public Object resolver(){
         return resolver(nodo);
     }
     private Object resolver(Nodo n){
+        System.out.println("Solver aritmetico");
         // No tiene hijos, es un operando
         if(n.getHijos() == null){
             if(n.getValue().tipo == TipoToken.NUMERO || n.getValue().tipo == TipoToken.CADENA){
                 return n.getValue().literal;
             }
             else if(n.getValue().tipo == TipoToken.ID){
-                // Ver la tabla de símbolos
+                return tab.obtener(n.getValue().lexema);
             }
         }
 
@@ -42,11 +45,18 @@ public class SolverAritmetico {
         else if(resultadoIzquierdo instanceof String && resultadoDerecho instanceof String){
             if (n.getValue().tipo == TipoToken.MAS){
                 // Ejecutar la concatenación
+                    return "#";
             }
         }
         else{
             // Error por diferencia de tipos
+            System.out.println("Error por diferencia de tipos");
         }
+
+        return null;
+    }
+
+    public Object resolverLogica(Nodo n){
 
         return null;
     }

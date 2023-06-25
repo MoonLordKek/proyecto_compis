@@ -167,7 +167,7 @@ public class Scanner {
                         i--;
                     }
                 }while((car.charAt(0) < 58 && car.charAt(0)>47 || car.charAt(0)==46 ) && i<source.length()) ;
-                tokens.add(new Token(TipoToken.NUMERO,token));    
+                tokens.add(new Token(TipoToken.NUMERO,token,token));    
             }else if((car.charAt(0) == 10)){ //niu lain
                 linea++;
             }else if((car.charAt(0) == 32)){

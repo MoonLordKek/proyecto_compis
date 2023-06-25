@@ -51,9 +51,9 @@ public class Interprete {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
-        for(Token token : tokens){
+        /*for(Token token : tokens){
             System.out.println(token);
-        }
+        }*/
 
         Analizador analizador = new Analizador();
         //analizador.DECLARATION(tokens,0);
@@ -61,8 +61,15 @@ public class Interprete {
         GeneradorPostfija gpf = new GeneradorPostfija(tokens);
         List<Token> postfija = gpf.convertir();
 
+        System.out.println("post:\n");
+        for(Token token : postfija){
+            System.out.println(token);
+        }
+
         GeneradorAST gast = new GeneradorAST(postfija);
         Arbol programa = gast.generarAST();
+        System.out.println("\nimprimir arbol\n");
+        programa.imprimirArbol(programa.getRaiz());
         programa.recorrer();
 
     }

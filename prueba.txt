@@ -1,6 +1,4 @@
-si(2>3){
-	imprimir("hola mundo");
-}otro{
-	imprimir("adios mundo");
-}
-imprimir("cosas");
+var a = 20;
+var b = 10;
+
+imprimir b+a;

@@ -24,6 +24,7 @@ public class Token {
         switch (this.tipo){
             case ID:
             case NUMERO:
+            case CADENA:
                 return true;
             default:
                 return false;
@@ -47,10 +48,23 @@ public class Token {
 
     public boolean esPalabraReservada(){
         switch (this.tipo){
-            case VARIABLE:
+            case CLASE:
+            case ADEMAS:
+            case FALSO:
+            case PARA:
             case SI:
-            case IMPRIMIR:
             case OTRO:
+            case NULO:
+            case O:
+            case IMPRIMIR:
+            case RETORNAR:
+            case SUPER:
+            case ESTE:
+            case VERDADERO:
+            case VARIABLE:
+            case MIENTRAS:
+            case HACER:
+            case FUNCION:
                 return true;
             default:
                 return false;
@@ -61,6 +75,8 @@ public class Token {
         switch (this.tipo){
             case SI:
             case OTRO:
+            case PARA:
+            case MIENTRAS:
                 return true;
             default:
                 return false;
@@ -75,15 +91,25 @@ public class Token {
         switch (this.tipo){
             case MULTIPLICACION:
             case DIVISION:
-                return 3;
+                return 7;
             case MAS:
             case MENOS:
+                return 6;
+            case MAYOR_QUE:
+            case MAYOR_IGUAL
+            case MENOR_IGUAL:
+            case MENOR_QUE:
+                return 5;
+            case DISTINTO1:
+            case DISTINTO2:
+                return 4;
+            case Y:
+                return 3;
+            case O:
                 return 2;
             case OPERADOR_ASIGNACION:
                 return 1;
-            case MAYOR_QUE:
-            case MAYOR_IGUAL:
-                return 1;
+            
         }
 
         return 0;
@@ -100,7 +126,7 @@ public class Token {
             case MAYOR_IGUAL:
                 return 2;
         }
-        return 0;
+        return 1;
     }
 
 }
