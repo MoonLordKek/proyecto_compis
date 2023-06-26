@@ -4,6 +4,7 @@ import java.util.List;
 public class Arbol {
     private final Nodo raiz;
     TablaSimbolos tab;
+
     public Arbol(Nodo raiz){
         this.raiz = raiz;
     }
@@ -33,19 +34,17 @@ public class Arbol {
                     obj = solver.resolver();
                     System.out.println(obj);
                 break;
-                // Comparaciones
-                /*
                 case MENOR_QUE:
                 case MENOR_IGUAL:
-                case MAYOR_QUE
+                case MAYOR_QUE:
                 case MAYOR_IGUAL:
                 case COMPARACION:
                 case DISTINTO1:
                 case DISTINTO2:
-                    SolverAritmetico solver = new SolverAritmetico(n);
-                    Object res = solver.resolverLogica();
-                    System.out.println(res);
-                break;*/
+                    solver = new SolverAritmetico(n,tab);
+                    obj = solver.resolverLogica();
+                    System.out.println(obj);
+                break;
                 case VARIABLE:
                     //System.out.println("crear variable");
                     // Crear una variable. Usar tabla de simbolos
@@ -55,7 +54,6 @@ public class Arbol {
                     //System.out.println("\shijo 1: "+auxV2.getValue().tipo +" "+ auxV2.getValue().lexema);
                     if(!tab.existeIdentificador(auxV1.getValue().lexema)){
                         if(auxV2.getValue().esOperador()){
-
                             solver = new SolverAritmetico(auxV2,tab);
                             obj = solver.resolver();
                             System.out.println("hijo resuelto: " + obj);
@@ -78,12 +76,135 @@ public class Arbol {
                 case IMPRIMIR:
                     imprimir(n);
                     break;
+                case MIENTRAS:
+                    controlWhile(n);
+                case HACER:
+                    controlDoWhile(n);
                 default:
                     System.out.println("deafult " + n.getValue().lexema);
                     raizAux = n.getHijos().get(0);
                     break;
             }
         }
+    }
+
+    public void recorrerAux(Nodo n){
+        Object obj;
+        SolverAritmetico solver;
+        System.out.println("\narbol aux\n");
+        
+            Token t = n.getValue();
+            switch (t.tipo){
+                // Operadores aritméticos
+                case MAS:
+                case MENOS:
+                case MULTIPLICACION:
+                case DIVISION:
+                    solver = new SolverAritmetico(n,tab);
+                    obj = solver.resolver();
+                    System.out.println(obj);
+                break;
+                case MENOR_QUE:
+                case MENOR_IGUAL:
+                case MAYOR_QUE:
+                case MAYOR_IGUAL:
+                case COMPARACION:
+                case DISTINTO1:
+                case DISTINTO2:
+                    solver = new SolverAritmetico(n,tab);
+                    obj = solver.resolverLogica();
+                    System.out.println(obj);
+                break;
+                case VARIABLE:
+                    //System.out.println("crear variable");
+                    // Crear una variable. Usar tabla de simbolos
+                    Nodo auxV1 = n.getHijos().get(0);
+                    Nodo auxV2 = n.getHijos().get(1);
+                    //System.out.println("\shijo 1: "+auxV1.getValue().tipo +" "+ auxV1.getValue().lexema);
+                    //System.out.println("\shijo 1: "+auxV2.getValue().tipo +" "+ auxV2.getValue().lexema);
+                    if(!tab.existeIdentificador(auxV1.getValue().lexema)){
+                        if(auxV2.getValue().esOperador()){
+                            solver = new SolverAritmetico(auxV2,tab);
+                            obj = solver.resolver();
+                            System.out.println("hijo resuelto: " + obj);
+                            tab.asignar(auxV1.getValue().lexema,obj);    
+                        }else{
+                            tab.asignar(auxV1.getValue().lexema,auxV2.getValue().literal);    
+                        }
+                    }else{
+                        System.out.println("La variable "+n.getValue().lexema+" ya ha sido declarada");
+                    }
+                    break;
+                case OPERADOR_ASIGNACION:
+                    Nodo auxA1 = n.getHijos().get(0);
+                    Nodo auxA2 = n.getHijos().get(1);
+                    if(tab.existeIdentificador(auxA1.getValue().lexema)){
+                        if(auxA2.getValue().esOperador()){
+                            solver = new SolverAritmetico(auxA2,tab);
+                            obj = solver.resolver();
+                            System.out.println("Asignar valor : "+obj);
+                            tab.remover(auxA1.getValue().lexema);
+                            tab.asignar(auxA1.getValue().lexema,obj);
+                            //System.out.println("luego de asignar + " + tab.obtener(auxA1));
+                        }else{
+                            tab.remover(auxA1.getValue().lexema);
+                            tab.asignar(auxA1.getValue().lexema,auxA2.getValue().literal);
+                        }
+                    }else{
+                        System.out.println("La variable no ha sido declarada");
+                    }
+                case SI:
+                    System.out.println(t.lexema);
+                    break;
+                case PARA:
+                    System.out.println("For:");
+                    controlFor(n);
+                    //System.out.println(t.lexema);
+                    break;
+                case IMPRIMIR:
+                    imprimir(n);
+                    break;
+                case MIENTRAS:
+                    controlWhile(n);
+                case HACER:
+                    controlDoWhile(n);
+                default:
+                    System.out.println("deafult " + n.getValue().lexema);
+                    n = n.getHijos().get(0);
+                    break;
+            }
+        
+    }
+
+    public void controlWhile(Nodo n){
+        List<Nodo> hijos = n.getHijos();
+        SolverAritmetico solver = new SolverAritmetico(hijos.get(0),tab);
+        int j = 0;
+        //System.out.println(solver.resolverLogica());
+        while((Boolean)solver.resolverLogica()) {
+            solver.setTabla(tab);
+            for(j=1; j<hijos.size();j++){
+                System.out.println(hijos.get(j).getValue().tipo);
+                recorrerAux(hijos.get(j));    
+            }
+            System.out.println("Resolviendo logica kek");
+        }
+    }
+
+    public void controlDoWhile(Nodo n){
+        List<Nodo> hijos = n.getHijos();
+        int c = hijos.size();
+        SolverAritmetico solver = new SolverAritmetico(hijos.get(c-1).getHijos().get(0),tab);
+        int j = 0;
+        //System.out.println(solver.resolverLogica());
+        do {
+            solver.setTabla(tab);
+            for(j=0; j<hijos.size()-1;j++){
+                System.out.println(hijos.get(j).getValue().tipo);
+                recorrerAux(hijos.get(j));    
+            }
+            System.out.println("iterando ando");
+        }while((Boolean)solver.resolverLogica());
     }
 
     public void controlFor(Nodo n){

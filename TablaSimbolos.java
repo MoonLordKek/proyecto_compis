@@ -20,4 +20,8 @@ public class TablaSimbolos {
         values.put(identificador, valor);
     }
 
+    void remover(String identificador){
+        values.remove(identificador);
+    }
+
 }

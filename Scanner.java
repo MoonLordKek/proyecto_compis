@@ -142,7 +142,13 @@ public class Scanner {
                 } i--;
                 if(palabrasReservadas.containsKey(token)){
                     //System.out.println("token_palabra: "+ token+"\n");
-                    tokens.add(new Token(palabrasReservadas.get(token),token));
+                    if(palabrasReservadas.get(token)==TipoToken.VERDADERO){
+                        tokens.add(new Token(palabrasReservadas.get(token),token,true));    
+                    }else if(palabrasReservadas.get(token)==TipoToken.FALSO){
+                        tokens.add(new Token(palabrasReservadas.get(token),token,false));    
+                    }else{
+                        tokens.add(new Token(palabrasReservadas.get(token),token));    
+                    }
                 }else{
                     //System.out.println("token: "+ token+"1\n");
                     tokens.add(new Token(TipoToken.ID,token));    

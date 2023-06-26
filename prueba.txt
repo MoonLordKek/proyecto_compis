@@ -1,4 +1,7 @@
 var z=0;
-para(; ; ){
-	imprimir z;
-}
+var a=2;
+hacer{
+	a=a+2;
+	z=a*2;
+	imprimir a;
+}mientras(z<35);

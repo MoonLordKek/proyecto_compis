@@ -47,6 +47,19 @@ public class Token {
                 return false;
         }
     }
+    public boolean esOperadorL(){
+        switch (this.tipo){
+            case MAYOR_QUE:
+            case MAYOR_IGUAL:
+            case MENOR_QUE:
+            case MENOR_IGUAL:
+            case DISTINTO1:
+            case DISTINTO2:
+                return true;
+            default:
+                return false;
+        }
+    }
 
     public boolean esPalabraReservada(){
         switch (this.tipo){

@@ -1,19 +1,27 @@
 public class SolverAritmetico {
 
     private final Nodo nodo;
-    private final TablaSimbolos tab;
+    private TablaSimbolos tab;
 
     public SolverAritmetico(Nodo nodo,TablaSimbolos tab) {
         this.nodo = nodo;
         this.tab = tab;
     }
 
+    public void setTabla(TablaSimbolos tab){
+        this.tab = tab;
+    }
+
     public Object resolver(){
         return resolver(nodo);
     }
+
+    public Object resolverLogica(){
+        return resolverLogica(nodo);
+    }
     private Object resolver(Nodo n){
 
-        System.out.println("Solver aritmetico");
+        System.out.println("Solver aritmetico " + n.getValue().lexema);
 
         // No tiene hijos, es un operando
         if(n.getHijos() == null){
@@ -23,6 +31,7 @@ public class SolverAritmetico {
                 return n.getValue().literal;
             }
             else if(n.getValue().tipo == TipoToken.ID){
+                System.out.println("obtener id: " + tab.obtener(n.getValue().lexema));
                 return tab.obtener(n.getValue().lexema);
             }else{
                 //System.out.println("Error por tipos");
@@ -66,7 +75,75 @@ public class SolverAritmetico {
         return null;
     }
 
-    public Object resolverLogica(Nodo n){
+    private Object resolverLogica(Nodo n){
+         System.out.println("Solver lógico " + n.getValue().lexema);
+         // No tiene hijos, es un operando
+        if(n.getHijos() == null){
+            //System.out.println("no tiene hijos: " + n.getValue().tipo);
+            if(n.getValue().tipo == TipoToken.NUMERO || n.getValue().tipo == TipoToken.VERDADERO || n.getValue().tipo == TipoToken.FALSO){
+                //System.out.println("literal "+ n.getValue().literal);
+                return n.getValue().literal;
+            }
+            else if(n.getValue().tipo == TipoToken.ID){
+                return tab.obtener(n.getValue().lexema);
+            }else{
+                System.out.println("Tipo incorrecto");
+            }
+        }
+
+        // Por simplicidad se asume que la lista de hijos del nodo tiene dos elementos
+        Nodo izq = n.getHijos().get(0);
+        Nodo der = null;
+        Object resultadoIzquierdo;
+        Object resultadoDerecho=null;
+        if(izq.getValue().esOperador() && izq.getValue().esOperadorL()){
+            resultadoIzquierdo = resolverLogica(izq);
+        }else{
+            resultadoIzquierdo = resolver(izq);
+        }
+
+        if(n.getValue().tipo != TipoToken.DISTINTO1){
+            der = n.getHijos().get(1); 
+            if(der.getValue().esOperador() && der.getValue().esOperadorL()){
+                resultadoDerecho = resolverLogica(der);
+            }else{
+                resultadoDerecho = resolver(der);
+            }
+        }
+
+        if(resultadoIzquierdo instanceof Double && resultadoDerecho instanceof Double){
+            switch(n.getValue().tipo){
+                case COMPARACION: 
+                    return ((Double)resultadoIzquierdo == (Double) resultadoDerecho);
+                case MENOR_QUE:
+                    return ((Double)resultadoIzquierdo < (Double) resultadoDerecho);
+                case MENOR_IGUAL:
+                    return ((Double)resultadoIzquierdo <= (Double) resultadoDerecho);
+                case MAYOR_QUE:
+                    return ((Double)resultadoIzquierdo > (Double) resultadoDerecho);
+                case MAYOR_IGUAL:
+                    return ((Double)resultadoIzquierdo >= (Double) resultadoDerecho);
+                case DISTINTO2:
+                    return ((Double)resultadoIzquierdo != (Double) resultadoDerecho);
+                case DISTINTO1:
+                    
+            }
+        }else if(resultadoIzquierdo instanceof Boolean && resultadoDerecho instanceof Boolean){
+            switch(n.getValue().tipo){
+                case COMPARACION :
+                    return ((Boolean)resultadoIzquierdo == (Boolean) resultadoDerecho);
+                case DISTINTO1:
+                    return ((Boolean)resultadoIzquierdo != (Boolean) resultadoDerecho);
+                case DISTINTO2:
+                    
+            }
+        }else if(resultadoDerecho instanceof Double){
+            return (Double)resultadoIzquierdo==0;
+        }else if(resultadoIzquierdo instanceof Boolean){
+            return !(Boolean)resultadoIzquierdo;
+        }else{
+            System.out.println("Error por diferencia de tipos"); 
+        }
 
         return null;
     }
