@@ -12,14 +12,20 @@ public class SolverAritmetico {
         return resolver(nodo);
     }
     private Object resolver(Nodo n){
+
         System.out.println("Solver aritmetico");
+
         // No tiene hijos, es un operando
         if(n.getHijos() == null){
+            //System.out.println("no tiene hijos: " + n.getValue().tipo);
             if(n.getValue().tipo == TipoToken.NUMERO || n.getValue().tipo == TipoToken.CADENA){
+                //System.out.println("literal "+ n.getValue().literal);
                 return n.getValue().literal;
             }
             else if(n.getValue().tipo == TipoToken.ID){
                 return tab.obtener(n.getValue().lexema);
+            }else{
+                //System.out.println("Error por tipos");
             }
         }
 
@@ -30,7 +36,11 @@ public class SolverAritmetico {
         Object resultadoIzquierdo = resolver(izq);
         Object resultadoDerecho = resolver(der);
 
+        //System.out.println("izq: "+ resultadoIzquierdo.getClass());
+        //System.out.println("der: "+ resultadoDerecho.getClass());
+
         if(resultadoIzquierdo instanceof Double && resultadoDerecho instanceof Double){
+            System.out.println("Son 2 numeros");
             switch (n.getValue().tipo){
                 case MAS:
                     return ((Double)resultadoIzquierdo + (Double) resultadoDerecho);
@@ -45,7 +55,7 @@ public class SolverAritmetico {
         else if(resultadoIzquierdo instanceof String && resultadoDerecho instanceof String){
             if (n.getValue().tipo == TipoToken.MAS){
                 // Ejecutar la concatenación
-                    return "#";
+                    return (String) resultadoIzquierdo + (String)resultadoDerecho;
             }
         }
         else{

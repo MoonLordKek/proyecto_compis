@@ -11,6 +11,7 @@ import java.util.List;
 public class Interprete {
 
     static boolean existenErrores = false;
+    static TablaSimbolos tab = new TablaSimbolos();
 
     public static void main(String[] args) throws IOException {
         if(args.length > 1) {
@@ -69,7 +70,8 @@ public class Interprete {
         GeneradorAST gast = new GeneradorAST(postfija);
         Arbol programa = gast.generarAST();
         System.out.println("\nimprimir arbol\n");
-        programa.imprimirArbol(programa.getRaiz());
+        programa.setTabla(tab);
+        programa.imprimirArbol(programa.getRaiz(),0);
         programa.recorrer();
 
     }

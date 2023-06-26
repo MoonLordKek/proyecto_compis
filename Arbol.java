@@ -3,9 +3,13 @@ import java.util.List;
 
 public class Arbol {
     private final Nodo raiz;
-
+    TablaSimbolos tab;
     public Arbol(Nodo raiz){
         this.raiz = raiz;
+    }
+
+    public void setTabla(TablaSimbolos tab){
+        this.tab=tab;
     }
 
     public Nodo getRaiz(){
@@ -13,7 +17,8 @@ public class Arbol {
     }
 
     public void recorrer(){
-        TablaSimbolos tab = new TablaSimbolos();
+        Object obj;
+        SolverAritmetico solver;
         System.out.println("\narbol\n");
         Nodo raizAux = raiz;
         for(Nodo n : raizAux.getHijos()){
@@ -24,9 +29,9 @@ public class Arbol {
                 case MENOS:
                 case MULTIPLICACION:
                 case DIVISION:
-                    SolverAritmetico solver = new SolverAritmetico(n,tab);
-                    Object res = solver.resolver();
-                    System.out.println(res);
+                    solver = new SolverAritmetico(n,tab);
+                    obj = solver.resolver();
+                    System.out.println(obj);
                 break;
                 // Comparaciones
                 /*
@@ -42,12 +47,22 @@ public class Arbol {
                     System.out.println(res);
                 break;*/
                 case VARIABLE:
-                    System.out.println("crear variable");
+                    //System.out.println("crear variable");
                     // Crear una variable. Usar tabla de simbolos
-                    Nodo aux1 = n.getHijos().get(0);
-                    Nodo aux2 = n.getHijos().get(1);
-                    if(!tab.existeIdentificador(aux1.getValue().lexema)){
-                        tab.asignar(aux1.getValue().lexema,aux1.getValue().literal);
+                    Nodo auxV1 = n.getHijos().get(0);
+                    Nodo auxV2 = n.getHijos().get(1);
+                    //System.out.println("\shijo 1: "+auxV1.getValue().tipo +" "+ auxV1.getValue().lexema);
+                    //System.out.println("\shijo 1: "+auxV2.getValue().tipo +" "+ auxV2.getValue().lexema);
+                    if(!tab.existeIdentificador(auxV1.getValue().lexema)){
+                        if(auxV2.getValue().esOperador()){
+
+                            solver = new SolverAritmetico(auxV2,tab);
+                            obj = solver.resolver();
+                            System.out.println("hijo resuelto: " + obj);
+                            tab.asignar(auxV1.getValue().lexema,obj);    
+                        }else{
+                            tab.asignar(auxV1.getValue().lexema,auxV2.getValue().literal);    
+                        }
                     }else{
                         System.out.println("La variable "+n.getValue().lexema+" ya ha sido declarada");
                     }
@@ -55,20 +70,13 @@ public class Arbol {
                 case SI:
                     System.out.println(t.lexema);
                     break;
-                case FUNCION:
-                    System.out.println("crear variable");
-                    // Crear una variable. Usar tabla de simbolos
-                    Nodo aux1 = n.getHijos().get(0);
-                    Nodo aux2 = n.getHijos().get(1);
-                    if(!tab.existeIdentificador(aux1.getValue().lexema)){
-                        tab.asignar(aux1.getValue().lexema,aux1.getValue().literal);
-                    }else{
-                        System.out.println("La variable "+n.getValue().lexema+" ya ha sido declarada");
-                    }
-                    System.out.println(t.lexema);
+                case PARA:
+                    System.out.println("For:");
+                    controlFor(n);
+                    //System.out.println(t.lexema);
                     break;
                 case IMPRIMIR:
-                    System.out.println(n.getHijos().get(0).getValue().lexema);
+                    imprimir(n);
                     break;
                 default:
                     System.out.println("deafult " + n.getValue().lexema);
@@ -78,15 +86,44 @@ public class Arbol {
         }
     }
 
-    public void imprimirArbol(Nodo hijo){
+    public void controlFor(Nodo n){
+        //tiene al menos 3 hijos, el primero será 
+        int i = 0;
+        for ( ;i<1 ;i++ ) {//este tipo de for se comporta como un while(1)
+            System.out.println("ejemplo for " +i );
+        }
+    }
+
+    public void imprimir(Nodo n){
+        Nodo hijos = n.getHijos().get(0);
+        Token t = hijos.getValue();
+        SolverAritmetico solver = new SolverAritmetico(hijos,tab);
+        if(t.esOperador()){
+            Object res = solver.resolver();
+            System.out.println(res);
+        }else if(t.esOperando()){
+            if(t.tipo==TipoToken.ID){
+                System.out.println("id: ");
+                Object obj = tab.obtener(t.lexema);
+                System.out.println(obj);
+            }else{
+                System.out.println("no id:");
+                System.out.println(t.lexema);    
+            }
+        }
+    }
+    
+    public void imprimirArbol(Nodo hijo,int i){
+        int a = 1;
         if(hijo.getHijos()==null){
-            System.out.println("final: "+hijo.getValue().lexema);
+            System.out.println(i +"."+a+ " final: "+hijo.getValue().lexema);
         }else{
             for(Nodo n : hijo.getHijos()){
-                System.out.println("hijo: "+hijo.getValue().lexema);
-                imprimirArbol(n);
+                System.out.println(i +"."+a+" hijo: "+hijo.getValue().lexema);
+                a++;
+                imprimirArbol(n,i+1);
             }   
-            System.out.println(hijo.getValue().lexema);
+            //System.out.println(hijo.getValue().lexema);
         }
         
     }

@@ -27,25 +27,25 @@ public class GeneradorPostfija {
             }
 
             if(t.esPalabraReservada()){
-                //System.out.println("Reservada " +t.lexema);
+                System.out.println("Reservada " +t.lexema);
                 /*Si el token actual es una palabra reservada, se va directo a la lista de salida.*/
                 postfija.add(t);
                 if (t.esEstructuraDeControl()){
-                    //System.out.println("\sEstructura de control");
+                    System.out.println("\sEstructura de control");
                     estructuraDeControl = true;
                     pilaEstructurasDeControl.push(t);
                 }
             }
             else if(t.esOperando()){
-                //System.out.println("operando "+t.lexema);
+                System.out.println("operando "+t.lexema);
                 postfija.add(t);
             }
             else if(t.tipo == TipoToken.PARENTESIS_ABRE){
-                //System.out.println("p abre "+t.lexema);
+                System.out.println("p abre "+t.lexema);
                 pila.push(t);
             }
             else if(t.tipo == TipoToken.PARENTESIS_CIERRA){
-                //System.out.println("p cierra "+t.lexema);
+                System.out.println("p cierra "+t.lexema);
                 while(!pila.isEmpty() && pila.peek().tipo != TipoToken.PARENTESIS_ABRE){
                     Token temp = pila.pop();
                     postfija.add(temp);
@@ -58,7 +58,7 @@ public class GeneradorPostfija {
                 }
             }
             else if(t.esOperador()){
-                //System.out.println("operador "+t.lexema);
+                System.out.println("operador "+t.lexema);
                 while(!pila.isEmpty() && pila.peek().precedenciaMayorIgual(t)){
                     Token temp = pila.pop();
                     postfija.add(temp);
@@ -66,23 +66,23 @@ public class GeneradorPostfija {
                 pila.push(t);
             }
             else if(t.tipo == TipoToken.PUNTO_COMA){
-                //System.out.println("punto coma");
-                while(!pila.isEmpty() && pila.peek().tipo != TipoToken.LLAVE_ABRE){
+                System.out.println("punto coma");
+                while(!pila.isEmpty() && pila.peek().tipo != TipoToken.LLAVE_ABRE && pila.peek().tipo != TipoToken.PARENTESIS_ABRE ){
                     Token temp = pila.pop();
                     postfija.add(temp);
-                    //System.out.println("\s"+temp.lexema);
+                    System.out.println("\s"+temp.lexema + " " +temp.tipo);
                 }
                 postfija.add(t);
             }
             else if(t.tipo == TipoToken.LLAVE_ABRE){
-                //System.out.println("llave abre");
+                System.out.println("llave abre");
                 // Se mete a la pila, tal como el parentesis. Este paso
                 // pudiera omitirse, sólo hay que tener cuidado en el manejo
                 // del "}".
                 pila.push(t);
             }
             else if(t.tipo == TipoToken.LLAVE_CIERRA && estructuraDeControl){
-                //System.out.println("llave cierra");
+                System.out.println("llave cierra");
                 // Primero verificar si hay un else:
                 if(i==infija.size()-1){//si no estamos al final entonces no puede haber un else
                     pila.pop();
@@ -91,7 +91,7 @@ public class GeneradorPostfija {
                     // Se extrae de la pila de estrucuras de control, el elemento en el tope
                     pilaEstructurasDeControl.pop();
                     if(pilaEstructurasDeControl.isEmpty()){
-                        //System.out.println("Cierra estructura de control");
+                        System.out.println("Cierra estructura de control");
                         estructuraDeControl = false;
                     }
 
@@ -111,7 +111,7 @@ public class GeneradorPostfija {
                         // Se extrae de la pila de estrucuras de control, el elemento en el tope
                         pilaEstructurasDeControl.pop();
                         if(pilaEstructurasDeControl.isEmpty()){
-                            //System.out.println("Cierra estructura de control");
+                            System.out.println("Cierra estructura de control");
                             estructuraDeControl = false;
                         }
                     }

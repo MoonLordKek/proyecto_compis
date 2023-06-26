@@ -40,6 +40,8 @@ public class Token {
             case OPERADOR_ASIGNACION:
             case MAYOR_QUE:
             case MAYOR_IGUAL:
+            case MENOR_QUE:
+            case MENOR_IGUAL:
                 return true;
             default:
                 return false;
@@ -96,7 +98,7 @@ public class Token {
             case MENOS:
                 return 6;
             case MAYOR_QUE:
-            case MAYOR_IGUAL
+            case MAYOR_IGUAL:
             case MENOR_IGUAL:
             case MENOR_QUE:
                 return 5;
@@ -124,6 +126,8 @@ public class Token {
             case OPERADOR_ASIGNACION:
             case MAYOR_QUE:
             case MAYOR_IGUAL:
+            case MENOR_QUE:
+            case MENOR_IGUAL:
                 return 2;
         }
         return 1;
