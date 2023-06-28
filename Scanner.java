@@ -16,7 +16,7 @@ public class Scanner {
     private static final Map<String, TipoToken> palabrasReservadas;
     static {
         palabrasReservadas = new HashMap<>();
-        palabrasReservadas.put("y", TipoToken.Y);
+        palabrasReservadas.put("Y", TipoToken.Y);
         palabrasReservadas.put("clase", TipoToken.CLASE);
         palabrasReservadas.put("ademas", TipoToken.ADEMAS);
         palabrasReservadas.put("falso", TipoToken.FALSO);
@@ -25,7 +25,7 @@ public class Scanner {
         palabrasReservadas.put("si", TipoToken.SI);
         palabrasReservadas.put("otro", TipoToken.OTRO);
         palabrasReservadas.put("nulo", TipoToken.NULO);
-        palabrasReservadas.put("o", TipoToken.O);
+        palabrasReservadas.put("O", TipoToken.O);
         palabrasReservadas.put("imprimir", TipoToken.IMPRIMIR);
         palabrasReservadas.put("retornar", TipoToken.RETORNAR);
         palabrasReservadas.put("super", TipoToken.SUPER);
@@ -118,9 +118,10 @@ public class Scanner {
                 
                 if ((i+1)<source.length()){
                     token = car+source.substring(i+1,i+2);
-                    if(simbolosDelSistema.containsKey(token))
+                    if(simbolosDelSistema.containsKey(token)){
                         tokens.add(new Token(simbolosDelSistema.get(token),token));
-                    else{
+                        i++;
+                    }else{
                         tokens.add(new Token(simbolosDelSistema.get(car),car));
                     }
                 }else{

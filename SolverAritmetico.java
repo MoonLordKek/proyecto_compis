@@ -21,7 +21,7 @@ public class SolverAritmetico {
     }
     private Object resolver(Nodo n){
 
-        System.out.println("Solver aritmetico " + n.getValue().lexema);
+        //System.out.println("Solver aritmetico " + n.getValue().lexema);
 
         // No tiene hijos, es un operando
         if(n.getHijos() == null){
@@ -31,10 +31,16 @@ public class SolverAritmetico {
                 return n.getValue().literal;
             }
             else if(n.getValue().tipo == TipoToken.ID){
-                System.out.println("obtener id: " + tab.obtener(n.getValue().lexema));
-                return tab.obtener(n.getValue().lexema);
+                if(tab.existeIdentificador(n.getValue().lexema)){
+                    //System.out.println("obtener id: " + tab.obtener(n.getValue().lexema));
+                    return tab.obtener(n.getValue().lexema);
+                }else{
+                    System.out.println("La variable '"+n.getValue().lexema+"' no ha sido declarada");
+                    System.exit(0);
+                }
             }else{
-                //System.out.println("Error por tipos");
+                System.out.println("Error por diferencia de tipos");
+                System.exit(0);
             }
         }
 
@@ -49,7 +55,7 @@ public class SolverAritmetico {
         //System.out.println("der: "+ resultadoDerecho.getClass());
 
         if(resultadoIzquierdo instanceof Double && resultadoDerecho instanceof Double){
-            System.out.println("Son 2 numeros");
+            //System.out.println("Son 2 numeros");
             switch (n.getValue().tipo){
                 case MAS:
                     return ((Double)resultadoIzquierdo + (Double) resultadoDerecho);
@@ -62,6 +68,7 @@ public class SolverAritmetico {
             }
         }
         else if(resultadoIzquierdo instanceof String && resultadoDerecho instanceof String){
+            //System.out.println("son 2 cadenas");
             if (n.getValue().tipo == TipoToken.MAS){
                 // Ejecutar la concatenación
                     return (String) resultadoIzquierdo + (String)resultadoDerecho;
@@ -70,13 +77,14 @@ public class SolverAritmetico {
         else{
             // Error por diferencia de tipos
             System.out.println("Error por diferencia de tipos");
+            System.exit(0);
         }
 
         return null;
     }
 
     private Object resolverLogica(Nodo n){
-         System.out.println("Solver lógico " + n.getValue().lexema);
+         //System.out.println("Solver lógico " + n.getValue().lexema);
          // No tiene hijos, es un operando
         if(n.getHijos() == null){
             //System.out.println("no tiene hijos: " + n.getValue().tipo);
@@ -85,9 +93,15 @@ public class SolverAritmetico {
                 return n.getValue().literal;
             }
             else if(n.getValue().tipo == TipoToken.ID){
-                return tab.obtener(n.getValue().lexema);
+                if(tab.existeIdentificador(n.getValue().lexema)){
+                    //System.out.println("obtener id: " + tab.obtener(n.getValue().lexema));
+                    return tab.obtener(n.getValue().lexema);
+                }else{
+                    System.out.println("La variable '"+n.getValue().lexema+"' no ha sido declarada");
+                    System.exit(0);
+                }
             }else{
-                System.out.println("Tipo incorrecto");
+                //System.out.println("Tipo incorrecto");
             }
         }
 
@@ -130,12 +144,14 @@ public class SolverAritmetico {
             }
         }else if(resultadoIzquierdo instanceof Boolean && resultadoDerecho instanceof Boolean){
             switch(n.getValue().tipo){
-                case COMPARACION :
+                case COMPARACION:
                     return ((Boolean)resultadoIzquierdo == (Boolean) resultadoDerecho);
                 case DISTINTO1:
                     return ((Boolean)resultadoIzquierdo != (Boolean) resultadoDerecho);
-                case DISTINTO2:
-                    
+                case Y:
+                    return ((Boolean)resultadoIzquierdo && (Boolean) resultadoDerecho);
+                case O:
+                    return ((Boolean)resultadoIzquierdo ||(Boolean) resultadoDerecho);  
             }
         }else if(resultadoDerecho instanceof Double){
             return (Double)resultadoIzquierdo==0;
@@ -143,6 +159,7 @@ public class SolverAritmetico {
             return !(Boolean)resultadoIzquierdo;
         }else{
             System.out.println("Error por diferencia de tipos"); 
+            System.exit(0);
         }
 
         return null;

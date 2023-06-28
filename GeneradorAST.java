@@ -22,7 +22,7 @@ public class GeneradorAST {
         for(Token t : postfija){
             i++;
             if(pilaPadres.peek().getValue()!=null){
-                System.out.println("\npilapadres:  "+pilaPadres.peek().getValue().lexema);
+                //System.out.println("\npilapadres:  "+pilaPadres.peek().getValue().lexema);
             }
 
             if(t.tipo == TipoToken.EOF){
@@ -30,7 +30,7 @@ public class GeneradorAST {
             }
 
             if(t.esPalabraReservada()){
-                System.out.println(i+" palabra reservada "+t.lexema);
+                //System.out.println(i+" palabra reservada "+t.lexema);
 
                 Nodo n = new Nodo(t);
 
@@ -42,39 +42,37 @@ public class GeneradorAST {
 
             }
             else if(t.esOperando()){
-                System.out.println(i+" operando "+t.lexema);
+                //System.out.println(i+" operando "+t.lexema);
 
                 Nodo n = new Nodo(t);
                 pila.push(n);
             }
             else if(t.esOperador()){
-                System.out.println(i+" operador "+t.lexema);
+                //System.out.println(i+" operador "+t.lexema);
                 
                 int aridad = t.aridad();
                 Nodo n = new Nodo(t);
                 for(int j=1; j<=aridad; j++){
                     Nodo nodoAux = pila.pop();
                     n.insertarHijo(nodoAux);
-                    System.out.println("usando operadores :" +nodoAux.getValue().lexema);
+                    //System.out.println("usando operadores :" +nodoAux.getValue().lexema);
                 }
                 pila.push(n);
             }
             else if(t.tipo == TipoToken.PUNTO_COMA){
-                System.out.println(i+" punto coma "+t.lexema);
+                //System.out.println(i+" punto coma "+t.lexema);
                 if (pila.isEmpty()){
                     /*
                     Si la pila esta vacía es porque t es un punto y coma que cierra una estructura de control
                      */
-                    if(pilaPadres.peek().getValue().tipo==TipoToken.PARA){
-
-                    }else{
-                        pilaPadres.pop();
-                        padre = pilaPadres.peek();    
-                    }
+                
+                    pilaPadres.pop();
+                    padre = pilaPadres.peek();    
+                
                 }
                 else{
                     Nodo n = pila.pop();
-                    System.out.println("punto coma no es final: "+n.getValue().lexema);
+                    //System.out.println("punto coma no es final: "+n.getValue().lexema);
                     if(padre.getValue().tipo == TipoToken.VARIABLE){
                         
                         /*En el caso del VAR, es necesario eliminar el igual que
@@ -95,9 +93,7 @@ public class GeneradorAST {
                         padre = pilaPadres.peek();
                     }
                     else if(padre.getValue().tipo == TipoToken.PARA){
-                        if(true){
-                            System.out.println("true");
-                        }
+                        
                         padre.insertarSiguienteHijo(n);
                     }else{
                         padre.insertarSiguienteHijo(n);

@@ -1,7 +1,9 @@
-var z=0;
-var a=2;
-hacer{
-	a=a+2;
-	z=a*2;
-	imprimir a;
-}mientras(z<35);
+var radio = 5;
+var pi = 3.1416;
+var area = pi*radio*radio;
+
+si(area > 100 Y radio<10){
+	imprimir "condicion valida";	
+}otro{
+	imprimir "no se cumple el criterio";
+}

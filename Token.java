@@ -42,6 +42,8 @@ public class Token {
             case MAYOR_IGUAL:
             case MENOR_QUE:
             case MENOR_IGUAL:
+            case Y:
+            case O:
                 return true;
             default:
                 return false;
@@ -55,6 +57,8 @@ public class Token {
             case MENOR_IGUAL:
             case DISTINTO1:
             case DISTINTO2:
+            case Y:
+            case O:
                 return true;
             default:
                 return false;
@@ -70,7 +74,6 @@ public class Token {
             case SI:
             case OTRO:
             case NULO:
-            case O:
             case IMPRIMIR:
             case RETORNAR:
             case SUPER:
@@ -141,6 +144,8 @@ public class Token {
             case MAYOR_IGUAL:
             case MENOR_QUE:
             case MENOR_IGUAL:
+            case O:
+            case Y:
                 return 2;
         }
         return 1;
