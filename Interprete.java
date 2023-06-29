@@ -11,6 +11,7 @@ import java.util.List;
 public class Interprete {
 
     static boolean existenErrores = false;
+    static TablaSimbolos tab = new TablaSimbolos();
 
     public static void main(String[] args) throws IOException {
         if(args.length > 1) {
@@ -51,11 +52,28 @@ public class Interprete {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
-        for(Token token : tokens){
+        /*for(Token token : tokens){
             System.out.println(token);
-        }
+        }*/
+
         Analizador analizador = new Analizador();
         analizador.DECLARATION(tokens,0);
+
+        GeneradorPostfija gpf = new GeneradorPostfija(tokens);
+        List<Token> postfija = gpf.convertir();
+
+        /*System.out.println("post:\n");
+        for(Token token : postfija){
+            System.out.println(token.lexema);
+        }*/
+
+        GeneradorAST gast = new GeneradorAST(postfija);
+        Arbol programa = gast.generarAST();
+        //System.out.println("\nimprimir arbol\n");
+        programa.setTabla(tab);
+        //programa.imprimirArbol(programa.getRaiz(),0);
+        programa.recorrer();
+
     }
 
     /*
